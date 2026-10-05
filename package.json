@@ -1,0 +1,8 @@
+{
+  "name": "sai-logistics",
+  "version": "1.0.0",
+  "description": "SAI Logistics full stack website (frontend + Node backend + SQLite)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=22.13.0" }
+}

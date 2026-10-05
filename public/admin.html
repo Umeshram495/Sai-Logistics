@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Admin – SAI LOGISTICS</title><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&family=Oswald:500,700&display=swap"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="/app.css"></head>
+<body class="sai">
+<nav class="sai-nav"><a class="sai-logo" href="/">SAI <span>LOGISTICS</span> · Admin</a><button class="btn small red" id="out" style="display:none">Logout</button></nav>
+<main class="wrap">
+  <section id="login" class="login" style="display:none">
+    <h2>Admin login</h2>
+    <div id="lerr" class="notice bad"></div>
+    <form id="lf" class="sai-form"><div><label for="pw">Password</label><input id="pw" type="password" required autofocus></div><button class="btn blue" type="submit">Login</button></form>
+  </section>
+  <section id="panel" style="display:none">
+    <h2>Inquiries</h2>
+    <div class="tabs" id="tabs"></div>
+    <div class="tablewrap"><table class="t"><thead><tr><th>Date</th><th>Name / Contact</th><th>Service</th><th>Message</th><th>Status</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+    <p id="empty" style="display:none">Hajuu koi inquiry nathi.</p>
+  </section>
+</main>
+<script>
+let filter='';
+const $=id=>document.getElementById(id);
+const api=async(url,opt)=>{const r=await fetch(url,opt);const d=await r.json().catch(()=>({}));if(r.status===401&&!url.includes('login')){show(false);}return {ok:r.ok,d};};
+const J=(m,b)=>({method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+function show(isAdmin){$('login').style.display=isAdmin?'none':'block';$('panel').style.display=isAdmin?'block':'none';$('out').style.display=isAdmin?'inline-block':'none';if(isAdmin)load();}
+const td=(t)=>{const e=document.createElement('td');if(t instanceof Node)e.appendChild(t);else e.textContent=t;return e;};
+async function load(){
+  const {ok,d}=await api('/api/admin/inquiries'+(filter?'?status='+filter:''));
+  if(!ok)return;
+  const total=d.counts.reduce((a,c)=>a+c.c,0);const cnt=s=>(d.counts.find(c=>c.status===s)||{c:0}).c;
+  $('tabs').innerHTML='';
+  [['','All ('+total+')'],['new','New ('+cnt('new')+')'],['contacted','Contacted ('+cnt('contacted')+')'],['closed','Closed ('+cnt('closed')+')']].forEach(([v,l])=>{
+    const b=document.createElement('button');b.textContent=l;if(v===filter)b.className='on';b.onclick=()=>{filter=v;load();};$('tabs').appendChild(b);});
+  const body=$('rows');body.innerHTML='';$('empty').style.display=d.rows.length?'none':'block';
+  d.rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    const who=document.createElement('div');
+    const n=document.createElement('strong');n.textContent=r.name;
+    const c=document.createElement('div');c.textContent=[r.company,r.phone,r.email].filter(Boolean).join(' · ');
+    who.append(n,c);
+    const badge=document.createElement('span');badge.className='badge '+r.status;badge.textContent=r.status;
+    const act=document.createElement('div');
+    const sel=document.createElement('select');['new','contacted','closed'].forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;if(s===r.status)o.selected=true;sel.appendChild(o);});
+    sel.onchange=async()=>{await api('/api/admin/inquiries/'+r.id,J('PATCH',{status:sel.value}));load();};
+    const del=document.createElement('button');del.className='btn small red';del.textContent='Delete';del.style.marginLeft='6px';
+    del.onclick=async()=>{if(confirm('Aa inquiry delete karvi che?')){await api('/api/admin/inquiries/'+r.id,{method:'DELETE'});load();}};
+    act.append(sel,del);
+    tr.append(td(r.created_at+' UTC'),td(who),td(r.service||'-'),td(r.message),td(badge),td(act));
+    body.appendChild(tr);
+  });
+}
+$('lf').onsubmit=async e=>{e.preventDefault();const {ok,d}=await api('/api/admin/login',J('POST',{password:$('pw').value}));
+  if(ok){$('lerr').style.display='none';$('pw').value='';show(true);}else{$('lerr').textContent=d.error||'Login fail';$('lerr').style.display='block';}};
+$('out').onclick=async()=>{await api('/api/admin/logout',{method:'POST'});show(false);};
+api('/api/admin/me').then(({d})=>show(!!d.admin));
+</script></body></html>

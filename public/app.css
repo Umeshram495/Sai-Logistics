@@ -1,0 +1,58 @@
+/* Naya pages (contact, services, admin) nu common design - SAI Logistics ni theme sathe match */
+:root{--blue:#0142a6;--yellow:#fac12e;--dark:#282828;--grey:#f4f6fa;--red:#ff3f42;}
+*{box-sizing:border-box}
+body.sai{margin:0;font-family:'Poppins',Arial,sans-serif;color:var(--dark);background:#fff;line-height:1.6}
+.sai a{color:inherit}
+.sai-top{background:var(--dark);color:#fff;font-size:14px;padding:8px 20px;display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
+.sai-top a{text-decoration:none}
+.sai-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:14px 5%;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:10}
+.sai-logo{font-family:'Oswald',Arial,sans-serif;font-size:26px;font-weight:700;letter-spacing:1px;text-decoration:none;color:var(--blue)}
+.sai-logo span{color:var(--yellow)}
+.sai-nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.sai-nav ul a{text-decoration:none;font-weight:500}
+.sai-nav ul a:hover,.sai-nav ul a.on{color:var(--blue)}
+.sai-hero{background:linear-gradient(120deg,var(--blue),#012a6b);color:#fff;text-align:center;padding:56px 20px}
+.sai-hero h1{font-family:'Oswald',Arial,sans-serif;font-size:42px;margin:0 0 8px;letter-spacing:1px}
+.sai-hero p{margin:0;opacity:.9}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 20px}
+.btn{display:inline-block;background:var(--yellow);color:var(--dark);border:0;padding:13px 28px;font-weight:600;border-radius:4px;cursor:pointer;text-decoration:none;font-size:15px}
+.btn:hover{background:#e5ad1a}
+.btn.blue{background:var(--blue);color:#fff}.btn.blue:hover{background:#01338080;background:#013383}
+.btn.small{padding:7px 14px;font-size:13px}
+.btn.red{background:var(--red);color:#fff}
+.btn:disabled{opacity:.6;cursor:wait}
+/* services */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.card{background:#fff;border:1px solid #e4e8f0;border-top:4px solid var(--yellow);border-radius:6px;padding:26px;box-shadow:0 4px 16px rgba(0,0,0,.05);scroll-margin-top:100px}
+.card.hl{border-top-color:var(--blue);box-shadow:0 6px 24px rgba(1,66,166,.25)}
+.card i{font-size:28px;color:var(--blue)}
+.card h3{margin:12px 0 6px}
+.card p{margin:0 0 16px;color:#555}
+/* forms */
+.contact{display:grid;grid-template-columns:1fr 1.4fr;gap:40px}
+@media(max-width:800px){.contact{grid-template-columns:1fr}}
+.info{background:var(--grey);padding:28px;border-radius:6px}
+.info h3{margin-top:0}
+form.sai-form{display:grid;gap:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.row2{grid-template-columns:1fr}}
+.sai-form label{display:block;font-weight:500;font-size:14px;margin-bottom:4px}
+.sai-form input,.sai-form select,.sai-form textarea{width:100%;padding:12px;border:1px solid #cfd6e4;border-radius:4px;font:inherit}
+.sai-form input:focus,.sai-form select:focus,.sai-form textarea:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+.err{color:var(--red);font-size:13px;min-height:0}
+.hp{position:absolute;left:-9999px;height:0;overflow:hidden}
+.notice{padding:14px 16px;border-radius:4px;margin-bottom:16px;display:none}
+.notice.ok{display:block;background:#e6f6ea;color:#16642b;border:1px solid #b8e2c3}
+.notice.bad{display:block;background:#fdeaea;color:#a11;border:1px solid #f3c1c1}
+footer.sai-foot{background:var(--dark);color:#ddd;text-align:center;padding:24px 20px;font-size:14px}
+/* admin */
+.login{max-width:380px;margin:60px auto}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+.t th,.t td{padding:10px;border-bottom:1px solid #e4e8f0;text-align:left;vertical-align:top}
+.t th{background:var(--grey)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tabs button{border:1px solid #cfd6e4;background:#fff;padding:8px 16px;border-radius:20px;cursor:pointer;font:inherit}
+.tabs button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.badge{padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.badge.new{background:#fff3cd;color:#8a6300}.badge.contacted{background:#dbe9ff;color:#0142a6}.badge.closed{background:#e3e3e3;color:#555}
+.tablewrap{overflow-x:auto}

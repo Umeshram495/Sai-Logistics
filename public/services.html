@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Our Services – SAI LOGISTICS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&family=Oswald:500,700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="/app.css"></head>
+<body class="sai">
+<div class="sai-top"><a href="tel:+919723488420"><i class="fas fa-phone"></i> +91 97234 88420</a><a href="mailto:info@sailogistic.in"><i class="fas fa-envelope"></i> info@sailogistic.in</a></div>
+<nav class="sai-nav"><a class="sai-logo" href="/">SAI <span>LOGISTICS</span></a>
+<ul><li><a href="/">Home</a></li><li><a href="/services.html" class="on">Our Services</a></li><li><a href="/contact.html">Contact us</a></li></ul></nav>
+<section class="sai-hero"><h1>OUR SERVICES</h1><p>Transportation &amp; logistics solutions from port to destination</p></section>
+<main class="wrap"><div id="list" class="grid"><p>Loading…</p></div></main>
+<footer class="sai-foot">&copy; SAI Logistics. All rights reserved.</footer>
+<script>
+fetch('/api/services').then(r => r.json()).then(list => {
+  const el = document.getElementById('list');
+  el.innerHTML = '';
+  list.forEach(s => {
+    const c = document.createElement('div'); c.className = 'card'; c.id = s.slug;
+    const i = document.createElement('i'); i.className = 'fas ' + s.icon;
+    const h = document.createElement('h3'); h.textContent = s.title;
+    const p = document.createElement('p'); p.textContent = s.description;
+    const a = document.createElement('a'); a.className = 'btn small'; a.textContent = 'Request a quote';
+    a.href = '/contact.html?service=' + encodeURIComponent(s.slug);
+    c.append(i, h, p, a); el.appendChild(c);
+  });
+  if (location.hash) { const t = document.getElementById(location.hash.slice(1)); if (t) { t.classList.add('hl'); t.scrollIntoView(); } }
+}).catch(() => { document.getElementById('list').textContent = 'Services load na thai shaki. Page refresh karo.'; });
+</script></body></html>
